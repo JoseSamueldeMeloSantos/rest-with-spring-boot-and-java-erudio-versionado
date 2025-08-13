@@ -15,10 +15,11 @@ public class GreetingController {
 
     //estrutura de um url
     //host/endpoint/parametro=valor
-    //http://localhost:8080/gretting?name=Ricardo
+    //http://localhost:8080/gretting?name=Ricardo ->padrao query string
+    //http://localhost:8080/math/sum/3/5 ->padrao path(os paramentros fazem parte da url)
 
     //para que seja reconhecido como metodo exposto por http
-    @RequestMapping("/gretting")//para definir o nome do endpoint
+    @RequestMapping("/gretting")//para definir o nome do endpoint(apenas no metodo)
     public Greeting greeting (
                         //requisita o parametro da url
                         //  value-> pega o valor do parametro
