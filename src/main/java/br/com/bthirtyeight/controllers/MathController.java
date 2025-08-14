@@ -1,6 +1,7 @@
 package br.com.bthirtyeight.controllers;
 
 import br.com.bthirtyeight.exception.UnsupportedMathOperationException;
+import br.com.bthirtyeight.math.MathUtilities;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,37 +11,80 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/math")//-> define um endPoint "superior" para tudo da classe
 public class MathController {
 
+    private final MathUtilities mathUtt = new MathUtilities();
+
     //  /{} -> para definir as variaveis que serao usadas no metodo
-    @RequestMapping("/sum/{numberOne}/{numberTwo}")
+    @RequestMapping("/sum/{numberOne}/{numberTwo}")//define o endpint do metodo especifico
     public Double sum(
             //pathVariable -> puxa a variavel certa do parametro
             @PathVariable("numberOne") String numberOne,
-            @PathVariable("numberTwo") String numberTwo
-    ) {
-        if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+            @PathVariable("numberTwo") String numberTwo) {
+
+        if (!mathUtt.isNumeric(numberOne) || !mathUtt.isNumeric(numberTwo)) {
             throw new UnsupportedMathOperationException("Invalid number");
         }
-
-
-        return convertToDouble(numberOne) + convertToDouble(numberTwo);
+        return mathUtt.sum(
+                mathUtt.convertToDouble(numberOne),
+                mathUtt.convertToDouble(numberTwo));
     }
 
-    public Double convertToDouble(String strNumber) {
-        if(strNumber == null || strNumber.isEmpty()) {
+    @RequestMapping("/subtraction/{numberOne}/{numberTwo}")
+    public Double Subtraction(
+            @PathVariable("numberOne") String numberOne,
+            @PathVariable("numberTwo") String numberTwo) {
+
+        if (!mathUtt.isNumeric(numberOne) || !mathUtt.isNumeric(numberTwo)) {
             throw new UnsupportedMathOperationException("Invalid number");
         }
-        String number = strNumber.replaceAll(",",".");
-
-        return Double.parseDouble(number);
+        return mathUtt.subtraction(
+                mathUtt.convertToDouble(numberOne),
+                mathUtt.convertToDouble(numberTwo));
     }
 
-    public boolean isNumeric(String strNumber) {
+    @RequestMapping("/divison/{numberOne}/{numberTwo}")
+    public Double Division(
+            @PathVariable("numberOne") String numberOne,
+            @PathVariable("numberTwo") String numberTwo) {
 
-        if (strNumber == null || strNumber.isEmpty()) {
-            return false;
+        if (!mathUtt.isNumeric(numberOne) || !mathUtt.isNumeric(numberTwo)) {
+            throw new UnsupportedMathOperationException("Invalid number");
         }
-        String number =  strNumber.replaceAll(",", ".");
+        return mathUtt.division(
+                mathUtt.convertToDouble(numberOne),
+                mathUtt.convertToDouble(numberTwo));
+    }
 
-        return number.matches("[-+]?[0-9]*\\.?[0-9]+");
+    @RequestMapping("/multiplication/{numberOne}/{numberTwo}")
+    public Double Multiplication(
+            @PathVariable("numberOne") String numberOne,
+            @PathVariable("numberTwo") String numberTwo) {
+        if (!mathUtt.isNumeric(numberOne) || !mathUtt.isNumeric(numberTwo)) {
+            throw new UnsupportedMathOperationException("Invalid number");
+        }
+        return mathUtt.multiplication(
+                mathUtt.convertToDouble(numberOne),
+                mathUtt.convertToDouble(numberTwo));
+    }
+
+    @RequestMapping("/square-root/{number}")
+    public Double squareRoot(@PathVariable("number") String number) {
+
+        if (!mathUtt.isNumeric(number)) {
+            throw new UnsupportedMathOperationException("Invalid number");
+        }
+        return mathUtt.squareRoot(
+                mathUtt.convertToDouble(number));
+    }
+
+    @RequestMapping("/average/{numberOne}/{numberTwo}")
+    public Double average(
+            @PathVariable("numberOne") String numberOne,
+            @PathVariable("numberTwo") String numberTwo) {
+        if (!mathUtt.isNumeric(numberOne) || !mathUtt.isNumeric(numberTwo)) {
+            throw new UnsupportedMathOperationException("Invalid number");
+        }
+        return mathUtt.mean(
+                mathUtt.convertToDouble(numberOne),
+                mathUtt.convertToDouble(numberTwo));
     }
 }
