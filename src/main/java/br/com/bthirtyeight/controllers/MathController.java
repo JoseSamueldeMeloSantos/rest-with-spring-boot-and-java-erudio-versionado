@@ -1,5 +1,6 @@
 package br.com.bthirtyeight.controllers;
 
+import br.com.bthirtyeight.exception.UnsupportedMathOperationException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ public class MathController {
             @PathVariable("numberTwo") String numberTwo
     ) {
         if (!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new IllegalArgumentException();
+            throw new UnsupportedMathOperationException("Invalid number");
         }
 
 
@@ -26,7 +27,7 @@ public class MathController {
 
     public Double convertToDouble(String strNumber) {
         if(strNumber == null || strNumber.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new UnsupportedMathOperationException("Invalid number");
         }
         String number = strNumber.replaceAll(",",".");
 
