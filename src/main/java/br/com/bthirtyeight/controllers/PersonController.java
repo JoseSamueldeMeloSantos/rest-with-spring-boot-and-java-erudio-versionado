@@ -4,6 +4,7 @@ import br.com.bthirtyeight.model.Person;
 import br.com.bthirtyeight.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,25 +16,19 @@ public class PersonController {
     @Autowired//injeta a instancia do service(da um new)
     private PersonServices service;
 
-    @RequestMapping(value = "/{id}",
-            method = RequestMethod.GET,//Define que esse método a requisições HTTP do tipo GET
-            produces = MediaType.APPLICATION_JSON_VALUE//Diz que o tipo de resposta gerado por esse endpoint será JSON
-    )
-    public Person findById(@PathVariable("id") String id) {
+    @GetMapping(value = "/{id}",
+                produces = MediaType.APPLICATION_JSON_VALUE)
+    public Person findById(@PathVariable("id") Long id) {
            return service.findById(id);
     }
 
 
-    @RequestMapping(//quando nao tiver o parametro value sera para pega toda a lista json(default)
-            method = RequestMethod.GET,//Define que esse método a requisições HTTP do tipo GET
-            produces = MediaType.APPLICATION_JSON_VALUE//Diz que o tipo de resposta gerado por esse endpoint será JSON
-    )
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Person> findAll() {
         return service.findAll();
     }
 
-    @RequestMapping(//nao e necessario passar o value,pois o parametro e passado pelo body
-            method = RequestMethod.POST,//Define que esse método a requisições HTTP do tipo post
+    @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,//Diz que o tipo de valor que ele vai consumir e um json(nao e necessario mas e bom)
             produces = MediaType.APPLICATION_JSON_VALUE//Diz que o tipo de resposta gerado por esse endpoint será JSON
     )
@@ -42,8 +37,7 @@ public class PersonController {
     }
 
 
-    @RequestMapping(
-            method = RequestMethod.PUT,
+    @PutMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -52,11 +46,9 @@ public class PersonController {
     }
 
 
-    @RequestMapping(
-            value = "/{id}",
-            method = RequestMethod.DELETE
-    )
-    public void delete(@PathVariable("id") String id) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();//vai retornar o status code
     }
 }

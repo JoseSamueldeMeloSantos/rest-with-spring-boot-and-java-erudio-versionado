@@ -1,6 +1,6 @@
 package br.com.bthirtyeight.controllers;
 
-import br.com.bthirtyeight.exception.UnsupportedMathOperationException;
+import br.com.bthirtyeight.exception.ResourceNotFoundException;
 import br.com.bthirtyeight.math.MathUtilities;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +21,7 @@ public class MathController {
             @PathVariable("numberTwo") String numberTwo) {
 
         if (!mathUtt.isNumeric(numberOne) || !mathUtt.isNumeric(numberTwo)) {
-            throw new UnsupportedMathOperationException("Invalid number");
+            throw new ResourceNotFoundException("Invalid number");
         }
         return mathUtt.sum(
                 mathUtt.convertToDouble(numberOne),
@@ -34,7 +34,7 @@ public class MathController {
             @PathVariable("numberTwo") String numberTwo) {
 
         if (!mathUtt.isNumeric(numberOne) || !mathUtt.isNumeric(numberTwo)) {
-            throw new UnsupportedMathOperationException("Invalid number");
+            throw new ResourceNotFoundException("Invalid number");
         }
         return mathUtt.subtraction(
                 mathUtt.convertToDouble(numberOne),
@@ -47,7 +47,7 @@ public class MathController {
             @PathVariable("numberTwo") String numberTwo) {
 
         if (!mathUtt.isNumeric(numberOne) || !mathUtt.isNumeric(numberTwo)) {
-            throw new UnsupportedMathOperationException("Invalid number");
+            throw new ResourceNotFoundException("Invalid number");
         }
         return mathUtt.division(
                 mathUtt.convertToDouble(numberOne),
@@ -59,7 +59,7 @@ public class MathController {
             @PathVariable("numberOne") String numberOne,
             @PathVariable("numberTwo") String numberTwo) {
         if (!mathUtt.isNumeric(numberOne) || !mathUtt.isNumeric(numberTwo)) {
-            throw new UnsupportedMathOperationException("Invalid number");
+            throw new ResourceNotFoundException("Invalid number");
         }
         return mathUtt.multiplication(
                 mathUtt.convertToDouble(numberOne),
@@ -70,7 +70,7 @@ public class MathController {
     public Double squareRoot(@PathVariable("number") String number) {
 
         if (!mathUtt.isNumeric(number)) {
-            throw new UnsupportedMathOperationException("Invalid number");
+            throw new ResourceNotFoundException("Invalid number");
         }
         return mathUtt.squareRoot(
                 mathUtt.convertToDouble(number));
@@ -81,7 +81,7 @@ public class MathController {
             @PathVariable("numberOne") String numberOne,
             @PathVariable("numberTwo") String numberTwo) {
         if (!mathUtt.isNumeric(numberOne) || !mathUtt.isNumeric(numberTwo)) {
-            throw new UnsupportedMathOperationException("Invalid number");
+            throw new ResourceNotFoundException("Invalid number");
         }
         return mathUtt.mean(
                 mathUtt.convertToDouble(numberOne),

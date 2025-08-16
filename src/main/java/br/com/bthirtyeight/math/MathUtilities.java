@@ -1,13 +1,13 @@
 package br.com.bthirtyeight.math;
 
-import br.com.bthirtyeight.exception.UnsupportedMathOperationException;
+import br.com.bthirtyeight.exception.ResourceNotFoundException;
 
 public class MathUtilities {
 
 
     public Double convertToDouble(String strNumber) {
         if(strNumber == null || strNumber.isEmpty()) {
-            throw new UnsupportedMathOperationException("Invalid number");
+            throw new ResourceNotFoundException("Invalid number");
         }
         String number = strNumber.replaceAll(",",".");
 
