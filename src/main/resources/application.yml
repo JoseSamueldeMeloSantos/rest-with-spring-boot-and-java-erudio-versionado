@@ -14,3 +14,8 @@ spring:
     show-sql: false
 
     open-in-view: false
+#para adicionar/configurar logs a um pacote especifico do codigo
+logging:
+  level:
+    #root: WARN -> Define o tipo de nivel de toda a aplicacao(caso nao coloque o padrao e info)
+    br.com.bthirtyeight: DEBUG #defini que os arquivos desse pacote sera usado em um tipo de nivel
