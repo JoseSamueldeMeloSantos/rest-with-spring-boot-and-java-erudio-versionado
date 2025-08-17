@@ -17,6 +17,7 @@ public class TestLogController {
 
     @GetMapping("/test")
     public String testLog() {
+        //para retornar um log ao terminal
         logger.debug("this is an Debug log");
         logger.info("this is an Info log");
         logger.warn("this is an warn log");
