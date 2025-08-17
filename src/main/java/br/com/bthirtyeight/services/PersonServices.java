@@ -3,6 +3,7 @@ package br.com.bthirtyeight.services;
 import br.com.bthirtyeight.data.dto.v1.PersonDTO;
 import br.com.bthirtyeight.data.dto.v2.PersonDTOV2;
 import br.com.bthirtyeight.exception.ResourceNotFoundException;
+import br.com.bthirtyeight.mapper.custom.PersonMapper;
 import br.com.bthirtyeight.model.Person;
 import br.com.bthirtyeight.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class PersonServices {
 
     @Autowired//para injetar o repository
     private PersonRepository repository;
+
+    @Autowired
+    private PersonMapper converter;
 
     public  List<PersonDTO> findAll() {
         logger.info("find all people");
@@ -52,13 +56,13 @@ public class PersonServices {
     }
 
     public PersonDTOV2 createV2(PersonDTOV2 person) {
-        logger.info("Creating one Person");
+        logger.info("Creating one Person V2!");
 
-        var entity = parseObeject(person,Person.class);
+        var entity = converter.convertDTOToEntity(person);
 
         //ta salvando no banco usando o save apos isso converte novamente para DTO e retorna o DTO
         //     obs:o save retorna o obj que ele salvou
-        return parseObeject(repository.save(entity),PersonDTO.class);
+        return converter.convertEntityToDTO(repository.save(entity));
     }
 
     public PersonDTO update(PersonDTO person) {

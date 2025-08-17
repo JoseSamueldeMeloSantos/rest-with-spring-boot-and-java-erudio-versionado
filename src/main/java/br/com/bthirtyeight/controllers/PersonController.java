@@ -38,7 +38,7 @@ public class PersonController {
     }
 
     @PostMapping(
-            name = "/v2",
+            value = "/v2",
             consumes = MediaType.APPLICATION_JSON_VALUE,//Diz que o tipo de valor que ele vai consumir e um json(nao e necessario mas e bom)
             produces = MediaType.APPLICATION_JSON_VALUE//Diz que o tipo de resposta gerado por esse endpoint será JSON
     )

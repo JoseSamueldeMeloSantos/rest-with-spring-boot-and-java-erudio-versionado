@@ -3,6 +3,7 @@ package br.com.bthirtyeight.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity//->diz ao JPA que a classe deve ser mapeada para uma tabela no banco de dados.
@@ -24,6 +25,11 @@ public class Person implements Serializable {
     private String firstName;
     @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
+
+    //como a gente so ta simulando a o versionamento a entidade nao vai ter um BirthDay
+    //@Column(name = "birth_day", nullable = true, length = 80)
+    //private Date birthDay;
+
     @Column(nullable = false, length = 100)
     private String address;
     @Column(nullable = false, length = 6)
