@@ -1,5 +1,6 @@
 package br.com.bthirtyeight.services;
 
+import br.com.bthirtyeight.data.dto.PersonDTO;
 import br.com.bthirtyeight.exception.ResourceNotFoundException;
 import br.com.bthirtyeight.model.Person;
 import br.com.bthirtyeight.repository.PersonRepository;
@@ -10,6 +11,10 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
+//import para metodos estaticos(nao precisa ficar declarando o metodo)
+import static br.com.bthirtyeight.mapper.ObjectMapper.parseListObjects;
+import static br.com.bthirtyeight.mapper.ObjectMapper.parseObeject;
+
 @Service//para deixar a instancia da classe service a disposicao
 public class PersonServices {
 
@@ -19,27 +24,33 @@ public class PersonServices {
     @Autowired//para injetar o repository
     private PersonRepository repository;
 
-    public  List<Person> findAll() {
+    public  List<PersonDTO> findAll() {
         logger.info("find all people");
 
-        return repository.findAll();
+        return parseListObjects(repository.findAll(),PersonDTO.class);
     }
 
-    public Person findById(Long id) {
+    public PersonDTO findById(Long id) {
         logger.info("Finding one Person!");
 
-        return repository.findById(id)
-                //retorna uma exception caso nao ache no database
-                .orElseThrow(() -> new ResourceNotFoundException(""));
+        var entity = repository.findById(id)
+                        //retorna uma exception caso nao ache no database
+                        .orElseThrow(() -> new ResourceNotFoundException(""));
+
+        return parseObeject(entity,PersonDTO.class);
     }
 
-    public Person create(Person person) {
+    public PersonDTO create(PersonDTO person) {
         logger.info("Creating one Person");
 
-        return repository.save(person);
+        var entity = parseObeject(person,Person.class);
+
+        //ta salvando no banco usando o save apos isso converte novamente para DTO e retorna o DTO
+        //     obs:o save retorna o obj que ele salvou
+        return parseObeject(repository.save(entity),PersonDTO.class);
     }
 
-    public Person update(Person person) {
+    public PersonDTO update(PersonDTO person) {
         logger.info("Updating One Person!");
 
         Person entity = repository.findById(person.getId())
@@ -50,8 +61,8 @@ public class PersonServices {
         entity.setAddress(person.getAddress());
         entity.setGender(person.getGender());
 
-
-        return repository.save(entity);
+        //ta salvando no banco usando o save apos isso converte novamente para DTO e retorna o DTO
+        return parseObeject(repository.save(entity),PersonDTO.class);
     }
 
     public void delete(Long id) {
