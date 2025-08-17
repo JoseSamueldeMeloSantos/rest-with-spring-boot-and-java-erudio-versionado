@@ -1,4 +1,4 @@
-package br.com.bthirtyeight.data.dto;
+package br.com.bthirtyeight.data.dto.v1;
 
 import java.io.Serializable;
 import java.util.Objects;

@@ -1,7 +1,7 @@
 package br.com.bthirtyeight.controllers;
 
-import br.com.bthirtyeight.data.dto.PersonDTO;
-import br.com.bthirtyeight.model.Person;
+import br.com.bthirtyeight.data.dto.v1.PersonDTO;
+import br.com.bthirtyeight.data.dto.v2.PersonDTOV2;
 import br.com.bthirtyeight.services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -35,6 +35,15 @@ public class PersonController {
     )
     public PersonDTO create(@RequestBody PersonDTO person) {//RequestBody -> usado para url do tipo body
         return service.create(person);
+    }
+
+    @PostMapping(
+            name = "/v2",
+            consumes = MediaType.APPLICATION_JSON_VALUE,//Diz que o tipo de valor que ele vai consumir e um json(nao e necessario mas e bom)
+            produces = MediaType.APPLICATION_JSON_VALUE//Diz que o tipo de resposta gerado por esse endpoint será JSON
+    )
+    public PersonDTOV2 createV2(@RequestBody PersonDTOV2 person) {//RequestBody -> usado para url do tipo body
+        return service.createV2(person);
     }
 
 

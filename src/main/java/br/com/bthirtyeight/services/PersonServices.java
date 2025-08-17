@@ -1,6 +1,7 @@
 package br.com.bthirtyeight.services;
 
-import br.com.bthirtyeight.data.dto.PersonDTO;
+import br.com.bthirtyeight.data.dto.v1.PersonDTO;
+import br.com.bthirtyeight.data.dto.v2.PersonDTOV2;
 import br.com.bthirtyeight.exception.ResourceNotFoundException;
 import br.com.bthirtyeight.model.Person;
 import br.com.bthirtyeight.repository.PersonRepository;
@@ -41,6 +42,16 @@ public class PersonServices {
     }
 
     public PersonDTO create(PersonDTO person) {
+        logger.info("Creating one Person");
+
+        var entity = parseObeject(person,Person.class);
+
+        //ta salvando no banco usando o save apos isso converte novamente para DTO e retorna o DTO
+        //     obs:o save retorna o obj que ele salvou
+        return parseObeject(repository.save(entity),PersonDTO.class);
+    }
+
+    public PersonDTOV2 createV2(PersonDTOV2 person) {
         logger.info("Creating one Person");
 
         var entity = parseObeject(person,Person.class);
